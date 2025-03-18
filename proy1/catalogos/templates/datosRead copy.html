@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado de datos</title>
+</head>
+
+<body>
+    <h1>Listado de datos recibidos</h1>
+    <table>
+        <thead>
+            <th>Nombre</th>
+            <th>Edad</th>
+            <th>Promedio</th>
+        </thead>
+        <tbody>
+            <td>{{nombre}}</td>
+            <td>{{edad}}</td>
+            <td>{{promedio}}</td>
+        </tbody>
+    </table>
+
+    <style>
+        table {
+            width: 20%;
+            border: 1px solid #000;
+        }
+
+        th,
+        td {
+            width: 25%;
+            text-align: left;
+            vertical-align: top;
+            border: 1px solid #000;
+            border-spacing: 0;
+        }
+    </style>
+</body>
+
+</html>
