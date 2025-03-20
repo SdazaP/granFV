@@ -4,6 +4,6 @@ from catalogos import views
 urlpatterns = [
     #path('admin/', admin.site.urls),
     path('homeCatalogos/', views.homeCatalogos, name='homeCatalogos'),
-    path('datosRead/', views.datosRead, name='datosRead'),
+    path('carrerasRead/', views.carrerasRead, name='carrerasRead'),
     
 ]
