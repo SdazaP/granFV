@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+Listado de Maestros
+{% endblock titulo %}
+
+{% block contenido %}
+<a href="{% url 'maestrosCreate' %}" class="btn btn-primary">Nuevo Maestro</a>
+{% if maestros %}
+<h3>Listado de Maestros</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <td>Nombre</td>
+            <td>Apellidos</td>
+            <td>Email</td>
+            <td>Telefono</td>
+            <td>Especialidad</td>
+            <td>Activo</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in maestros %}
+          <tr>
+            <td>{{item.nombre}}</td>
+            <td>{{item.apellidos}}</td>
+            <td>{{item.email}}</td>
+            <td>{{item.telefono}}</td>
+            <td>{{item.especialidad}}</td>
+            <td>{{item.activo}}</td>
+            <td><a href="{% url 'maestrosUpdate' item.id %}" class="btn btn-success">Editar</a>
+                <a href="{% url 'maestrosDelete' item.id %}" class="btn btn-danger">Eliminar</a>
+            </td>
+          </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+    <h5>No hay registros</h5>
+{% endif %}
+{% endblock contenido %}

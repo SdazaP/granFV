@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
-from catalogos.models import Carrera
-from catalogos.forms import CarreraForm
+from catalogos.models import Carrera, Aula, Maestro
+from catalogos.forms import CarreraForm, AulaForm, MaestroForm
 
 def homeCatalogos(request):
     return render(request, 'homeCatalogos.html')
 
+
+#Carreras
 def carrerasRead(request):
     carreras = Carrera.objects.all()
     data = {'carreras':carreras}
@@ -40,6 +42,73 @@ def carrerasDelete(request, id):
         return redirect('carrerasRead')
     return render(request, 'carrerasDelete.html', {'carrera':carrera})
 
+#Aulas
+def aulasRead(request):
+    aulas = Aula.objects.all()
+    data = {'aulas': aulas}
+    return render(request, 'aulasRead.html', data)
+
+def aulasCreate(request):
+    if request.method == 'POST':
+        form = AulaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('aulasRead')
+    else:
+        form = AulaForm()
+    return render(request, 'aulasCreate.html', {'form': form})
+
+def aulasUpdate(request, id):
+    aula = Aula.objects.get(id=id)
+    if request.method == 'GET':
+        form = AulaForm(instance=aula)
+    else:
+        form = AulaForm(request.POST, instance=aula)
+        if form.is_valid():
+            form.save()
+            return redirect('aulasRead')
+    return render(request, 'aulasCreate.html', {'form': form})
+
+def aulasDelete(request, id):
+    aula = Aula.objects.get(id=id)
+    if request.method == 'POST':
+        aula.delete()
+        return redirect('aulasRead')
+    return render(request, 'aulasDelete.html', {'aula': aula})
+
+#Maestros
+def maestrosRead(request):
+    maestros = Maestro.objects.all()
+    data = {'maestros': maestros}
+    return render(request, 'maestrosRead.html', data)
+
+def maestroCreate(request):
+    if request.method == 'POST':
+        form = MaestroForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('maestrosRead')
+    else:
+        form = MaestroForm()
+    return render(request, 'maestrosCreate.html', {'form': form})
+
+def maestrosUpdate(request, id):
+    maestro = Maestro.objects.get(id=id)
+    if request.method == 'GET':
+        form = MaestroForm(instance=maestro)
+    else:
+        form = MaestroForm(request.POST, instance=maestro)
+        if form.is_valid():
+            form.save()
+            return redirect('maestrosRead')
+    return render(request, 'maestrosCreate.html', {'form': form})
+
+def maestrosDelete(request, id):
+    maestro = Maestro.objects.get(id=id)
+    if request.method == 'POST':
+        maestro.delete()
+        return redirect('maestrosRead')
+    return render(request, 'maestrosDelete.html', {'maestro': maestro})
 
 def datosRead(request):
     #Obtención de los datos

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+Listado de Aulas
+{% endblock titulo %}
+
+{% block contenido %}
+<a href="{% url 'aulasCreate' %}" class="btn btn-primary">Nueva Aula</a>
+{% if aulas %}
+<h3>Listado de Aulas</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <td>Nombre</td>
+            <td>Capacidad</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in aulas %}
+          <tr>
+            <td>{{item.nombre}}</td>
+            <td>{{item.capacidad}}</td>
+            <td><a href="{% url 'aulasUpdate' item.id %}" class="btn btn-success">Editar</a>
+                <a href="{% url 'aulasDelete' item.id %}" class="btn btn-danger">Eliminar</a>
+            </td>
+          </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+    <h5>No hay registros</h5>
+{% endif %}
+{% endblock contenido %}

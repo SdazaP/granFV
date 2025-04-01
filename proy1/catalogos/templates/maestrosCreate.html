@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+  Capturando nueva carrera
+{% endblock titulo %}
+
+{% block contenido %}
+<h3>Capturando maestros del Tec:</h3>
+  <form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Guardar</button>
+    <a href="{% url 'maestrosRead' %}" class="btn btn-danger">Cancelar</a>
+  </form>
+{% endblock contenido %}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+  Editando Aulas
+{% endblock titulo %}
+
+{% block contenido %}
+  <form action="" method="post">
+    {% csrf_token %}
+    <h3 style="color: blueviolet;">Seguro(a) de eliminar el aula {{aula.nombre}}</h3>
+    <button type="submit" class="btn btn-success">Si,eliminar</button>
+    <a href="{% url 'aulasRead' %}" class="btn btn-danger">No, cancelar</a>
+  </form>
+{% endblock contenido %}

@@ -25,5 +25,21 @@ class Materia(models.Model):
 
     def __str__(self):
         return "{0}-{1}".format(self.clave, self.nombre,)
+
+class Aula(models.Model):
+    nombre = models.CharField(max_length=20, unique=True)
+    capacidad = models.PositiveIntegerField()
     
+    def __str__(self):
+        return "{0}-{1}".format(self.nombre, self.capacidad)
     
+class Maestro(models.Model):
+    nombre = models.CharField(max_length=100)
+    apellidos = models.CharField(max_length=100)
+    email = models.EmailField(unique=True)
+    telefono = models.CharField(max_length=15, blank=True, null=True)
+    especialidad = models.CharField(max_length=100)
+    activo = models.BooleanField(default=True)
+
+    def __str__(self):
+        return "{0}-{1}-{2}-{3}-{4}-{5}".format(self.nombre, self.apellidos, self.email, self.telefono, self.especialidad, self.activo)
