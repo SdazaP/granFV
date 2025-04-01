@@ -29,4 +29,10 @@ urlpatterns = [
     path('materiasCreate/', views.materiasCreate, name='materiasCreate'),
     path('materiasUpdate/<int:id>/', views.materiasUpdate, name='materiasUpdate'),
     path('materiasDelete/<int:id>/', views.materiasDelete, name='materiasDelete'),
+    # URLs para Alumnos
+    path('alumnosRead/', views.alumnosRead, name='alumnosRead'),
+    path('alumnosCreate/', views.alumnosCreate, name='alumnosCreate'),
+    path('alumnosUpdate/<int:id>/', views.alumnosUpdate, name='alumnosUpdate'),
+    path('alumnosDelete/<int:id>/', views.alumnosDelete, name='alumnosDelete'),
+    path('get_planes_estudio/', views.get_planes_estudio, name='get_planes_estudio'),
 ]

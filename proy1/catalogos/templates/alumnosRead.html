@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %}Listado de Alumnos{% endblock %}
+
+{% block contenido %}
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-user-graduate me-1"></i>
+        Lista de Alumnos
+        <a href="{% url 'alumnosCreate' %}" class="btn btn-success btn-sm float-end">
+            <i class="fas fa-plus"></i> Nuevo Alumno
+        </a>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered" id="dataTable">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Matrícula</th>
+                        <th>Nombre</th>
+                        <th>Carrera</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for alumno in alumnos %}
+                    <tr>
+                        <td>{{ alumno.matricula }}</td>
+                        <td>{{ alumno.nombre }} {{ alumno.apellido_paterno }}</td>
+                        <td>{{ alumno.carrera.nombre }}</td>
+                        <td>
+                            <span class="badge 
+                                {% if alumno.estado == 'ACT' %}bg-success
+                                {% elif alumno.estado == 'EGR' %}bg-info
+                                {% else %}bg-danger
+                                {% endif %}">
+                                {{ alumno.get_estado_display }}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <a href="{% url 'alumnosUpdate' alumno.id %}" class="btn btn-warning btn-sm" title="Editar">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="{% url 'alumnosDelete' alumno.id %}" class="btn btn-danger btn-sm" title="Eliminar">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<!-- DataTables JS -->
+<script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'js/dataTables.bootstrap5.min.js' %}"></script>
+<script>
+$(document).ready(function() {
+    $('#dataTable').DataTable({
+        language: {
+            url: "{% static 'js/Spanish.json' %}"
+        },
+        columnDefs: [
+            { orderable: false, targets: [4] } // Deshabilitar orden en columna de acciones
+        ]
+    });
+});
+</script>
+{% endblock %}

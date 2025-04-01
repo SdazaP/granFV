@@ -43,4 +43,26 @@ class Maestro(models.Model):
 
     def __str__(self):
         return "{0}-{1}-{2}-{3}-{4}-{5}".format(self.nombre, self.apellidos, self.email, self.telefono, self.especialidad, self.activo)
+    
+class Alumno(models.Model):
+    ESTADOS = [
+        ('ACT', 'Activo'),
+        ('EGR', 'Egresado'),
+        ('BAJ', 'Baja'),
+    ]
+    
+    matricula = models.CharField(max_length=10, unique=True)
+    nombre = models.CharField(max_length=50)
+    apellido_paterno = models.CharField(max_length=50)
+    apellido_materno = models.CharField(max_length=50, blank=True)
+    fecha_nacimiento = models.DateField()
+    email = models.EmailField()
+    telefono = models.CharField(max_length=15, blank=True)
+    estado = models.CharField(max_length=3, choices=ESTADOS, default='ACT')
+    carrera = models.ForeignKey(Carrera, on_delete=models.PROTECT)
+    plan_estudio = models.ForeignKey(PlanEstudio, on_delete=models.PROTECT, blank=True, null=True)
+    fecha_inscripcion = models.DateField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"{self.matricula} - {self.nombre} {self.apellido_paterno}"
 

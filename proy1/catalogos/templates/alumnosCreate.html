@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %}
+    {% if form.instance.id %}Editar Alumno{% else %}Nuevo Alumno{% endif %}
+{% endblock %}
+
+{% block contenido %}
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-user-edit me-1"></i>
+        {% if form.instance.id %}Editar Alumno{% else %}Registrar Nuevo Alumno{% endif %}
+    </div>
+    <div class="card-body">
+        <form method="post" class="needs-validation" novalidate>
+            {% csrf_token %}
+            
+            <div class="row g-3 mb-4">
+                <!-- Primera fila -->
+                <div class="col-md-4">
+                    <div class="form-floating">
+                        {{ form.matricula }}
+                        <label for="{{ form.matricula.id_for_label }}">Matrícula</label>
+                        <div class="invalid-feedback">
+                            {{ form.matricula.errors|striptags }}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="form-floating">
+                        {{ form.estado }}
+                        <label for="{{ form.estado.id_for_label }}">Estado</label>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="form-floating">
+                        {{ form.fecha_nacimiento }}
+                        <label for="{{ form.fecha_nacimiento.id_for_label }}">Fecha Nacimiento</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row g-3 mb-4">
+                <!-- Segunda fila -->
+                <div class="col-md-4">
+                    <div class="form-floating">
+                        {{ form.nombre }}
+                        <label for="{{ form.nombre.id_for_label }}">Nombre(s)</label>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="form-floating">
+                        {{ form.apellido_paterno }}
+                        <label for="{{ form.apellido_paterno.id_for_label }}">Apellido Paterno</label>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="form-floating">
+                        {{ form.apellido_materno }}
+                        <label for="{{ form.apellido_materno.id_for_label }}">Apellido Materno</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row g-3 mb-4">
+                <!-- Tercera fila -->
+                <div class="col-md-6">
+                    <div class="form-floating">
+                        {{ form.email }}
+                        <label for="{{ form.email.id_for_label }}">Correo Electrónico</label>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="form-floating">
+                        {{ form.telefono }}
+                        <label for="{{ form.telefono.id_for_label }}">Teléfono</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row g-3 mb-4">
+                <!-- Cuarta fila -->
+                <div class="col-md-6">
+                    <div class="form-floating">
+                        {{ form.carrera }}
+                        <label for="{{ form.carrera.id_for_label }}">Carrera</label>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="form-floating">
+                        {{ form.plan_estudio }}
+                        <label for="{{ form.plan_estudio.id_for_label }}">Plan de Estudio</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                <a href="{% url 'alumnosRead' %}" class="btn btn-secondary me-md-2">
+                    <i class="fas fa-times-circle"></i> Cancelar
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> {% if form.instance.id %}Actualizar{% else %}Guardar{% endif %}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Carga dinámica de planes de estudio
+$(document).ready(function() {
+    // Inicializar selects
+    $('select').addClass('form-select');
+    
+    // Cargar planes cuando cambia la carrera
+    $('#id_carrera').change(function() {
+        var carreraId = $(this).val();
+        if (carreraId) {
+            $.get('{% url "get_planes_estudio" %}', {carrera_id: carreraId}, function(data) {
+                $('#id_plan_estudio').html(data.options);
+            });
+        } else {
+            $('#id_plan_estudio').html('<option value="">---------</option>');
+        }
+    });
+    
+    // Validación de formulario
+    (function() {
+        'use strict';
+        var forms = document.querySelectorAll('.needs-validation');
+        Array.prototype.slice.call(forms).forEach(function(form) {
+            form.addEventListener('submit', function(event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    })();
+});
+</script>
+{% endblock %}

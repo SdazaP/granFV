@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Eliminar Alumno{% endblock %}
+
+{% block contenido %}
+<div class="card mb-4">
+    <div class="card-header text-white bg-danger">
+        <i class="fas fa-exclamation-triangle me-1"></i>
+        Confirmar Eliminación
+    </div>
+    <div class="card-body">
+        <div class="alert alert-warning" role="alert">
+            <h4 class="alert-heading">¡Advertencia!</h4>
+            <p>Estás a punto de eliminar permanentemente al siguiente alumno:</p>
+            <hr>
+            <p class="mb-0">
+                <strong>Matrícula:</strong> {{ alumno.matricula }}<br>
+                <strong>Nombre:</strong> {{ alumno.nombre_completo }}<br>
+                <strong>Carrera:</strong> {{ alumno.carrera.nombre }}
+            </p>
+        </div>
+        
+        <form method="post">
+            {% csrf_token %}
+            <div class="d-flex justify-content-between">
+                <a href="{% url 'alumnosRead' %}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Cancelar
+                </a>
+                <button type="submit" class="btn btn-danger">
+                    <i class="fas fa-trash-alt"></i> Confirmar Eliminación
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,6 +1,7 @@
-from django.shortcuts import render, redirect
-from catalogos.models import Carrera, Aula, Maestro, PlanEstudio, Materia
-from catalogos.forms import CarreraForm, AulaForm, MaestroForm, PlanEstudioForm, MateriaForm
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import JsonResponse
+from catalogos.models import Carrera, Aula, Maestro, PlanEstudio, Materia, Alumno
+from catalogos.forms import CarreraForm, AulaForm, MaestroForm, PlanEstudioForm, MateriaForm, AlumnoForm
 
 def homeCatalogos(request):
     return render(request, 'homeCatalogos.html')
@@ -192,6 +193,48 @@ def materiasDelete(request, id):
     # Render the confirmation page with the PlanEstudio object if GET request
     return render(request, 'materiasDelete.html', {'materia': materia})
 
+# Vistas para Alumnos
+def alumnosRead(request):
+    alumnos = Alumno.objects.all().select_related('carrera', 'plan_estudio')
+    return render(request, 'alumnosRead.html', {'alumnos': alumnos})
+
+def alumnosCreate(request):
+    if request.method == 'POST':
+        form = AlumnoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('alumnosRead')
+    else:
+        form = AlumnoForm()
+    return render(request, 'alumnosCreate.html', {'form': form})
+
+def alumnosUpdate(request, id):
+    alumno = get_object_or_404(Alumno, id=id)
+    if request.method == 'POST':
+        form = AlumnoForm(request.POST, instance=alumno)
+        if form.is_valid():
+            form.save()
+            return redirect('alumnosRead')
+    else:
+        form = AlumnoForm(instance=alumno)
+    return render(request, 'alumnosCreate.html', {'form': form})
+
+def alumnosDelete(request, id):
+    alumno = get_object_or_404(Alumno, id=id)
+    if request.method == 'POST':
+        alumno.delete()
+        return redirect('alumnosRead')
+    return render(request, 'alumnoDelete.html', {'alumno': alumno})
+
+def get_planes_estudio(request):
+    carrera_id = request.GET.get('carrera_id')
+    if carrera_id:
+        planes = PlanEstudio.objects.filter(carrera_id=carrera_id)
+        options = '<option value="">---------</option>'
+        for plan in planes:
+            options += f'<option value="{plan.id}">{plan.nombre}</option>'
+        return JsonResponse({'options': options})
+    return JsonResponse({'options': '<option value="">---------</option>'})
 
 
 def datosRead(request):
