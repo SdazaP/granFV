@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+  Editando Carreras
+{% endblock titulo %}
+
+{% block contenido %}
+  <form action="" method="post">
+    {% csrf_token %}
+    <h3 style="color: blueviolet;">Seguro(a) de eliminar la carrera {{carrera.nombre}}</h3>
+    <button type="submit" class="btn btn-success">Si,eliminar</button>
+    <a href="{% url 'carrerasRead' %}" class="btn btn-danger">No, cancelar</a>
+  </form>
+{% endblock contenido %}

@@ -5,7 +5,7 @@ Listado de carreras
 {% endblock titulo %}
 
 {% block contenido %}
-<a href="#" class="btn btn-prumary">Nueva Carrera</a>
+<a href="{% url 'carreraCreate' %}" class="btn btn-primary">Nueva Carrera</a>
 {% if carreras %}
 <h3>Listado de carreras</h3>
 <table class="table">
@@ -21,8 +21,8 @@ Listado de carreras
           <tr>
             <td>{{item.clave}}</td>
             <td>{{item.nombre}}</td>
-            <td><a href="" class="btn btn-success">Editar</a>
-                <a href="" class="btn btn-danger">Eliminar</a>
+            <td><a href="{% url 'carrerasUpdate' item.id %}" class="btn btn-success">Editar</a>
+                <a href="{% url 'carrerasDelete' item.id %}" class="btn btn-danger">Eliminar</a>
             </td>
           </tr>
         {% endfor %}
