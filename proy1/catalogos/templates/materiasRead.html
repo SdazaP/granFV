@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block titulo %} Materias {% endblock %}
+
+{% block contenido %}
+    <a class="btn btn-primary" href="{% url 'materiasCreate'%}">Nueva Materia</a>
+
+    {% if materias %}
+        <h3 style="color: blueviolet;">Listado de Materias: </h3>
+        <table class="table" border="2">
+            <thead>
+                <tr>
+                    <td>Clave</td>
+                    <td>Nombre</td>
+                    <td>Créditos</td>
+                    <td>Plan Estudio</td>  <!-- Updated this column name -->
+                    <td>Acciones</td>  <!-- Added "Acciones" column for Edit and Delete buttons -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in materias %}
+                    <tr>
+                        <td>{{ item.clave }}</td>
+                        <td>{{ item.nombre }}</td>
+                        <td>{{ item.creditos }}</td>
+                        <td>{{ item.plan_estudio.nombre }}</td>  <!-- Displaying the 'nombre' of PlanEstudio -->
+                        <td>
+                            <a class="btn btn-success" href="{% url 'materiasUpdate' item.id %}">Editar</a>
+                            <a class="btn btn-danger" href="{% url 'materiasDelete' item.id %}">Eliminar</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <h5 style="color: red;">No hay registros</h5>
+    {% endif %}
+{% endblock %}

@@ -43,3 +43,4 @@ class Maestro(models.Model):
 
     def __str__(self):
         return "{0}-{1}-{2}-{3}-{4}-{5}".format(self.nombre, self.apellidos, self.email, self.telefono, self.especialidad, self.activo)
+

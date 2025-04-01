@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block titulo %} Planes de Estudio {% endblock %}
+
+{% block contenido %}
+<a class="btn btn-primary" href="{% url 'planesCreate' %}">Nuevo Plan de estudio</a>
+
+{% if planesEstudio %}
+    <h3 style="color: blueviolet;">Listado de Planes De Estudio: </h3>
+    <table class="table" border="2">
+        <thead>
+            <tr>
+                <td>Clave</td>
+                <td>Nombre</td>
+                <td>Carrera</td>
+                <td>Acciones</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in planesEstudio %}
+                <tr>
+                    <td>{{ item.clave }}</td>
+                    <td>{{ item.nombre }}</td>
+                    <td>{{ item.carrera }}</td>
+                    <td>
+                        <a class="btn btn-success" href="{% url 'planesUpdate' item.id %}">Editar</a>
+                        <a class="btn btn-danger" href="{% url 'planesDelete' item.id %}">Eliminar</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <h5 style="color: red;">No hay registros</h5>
+{% endif %}
+
+{% endblock %}

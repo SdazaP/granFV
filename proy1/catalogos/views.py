@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from catalogos.models import Carrera, Aula, Maestro
-from catalogos.forms import CarreraForm, AulaForm, MaestroForm
+from catalogos.models import Carrera, Aula, Maestro, PlanEstudio, Materia
+from catalogos.forms import CarreraForm, AulaForm, MaestroForm, PlanEstudioForm, MateriaForm
 
 def homeCatalogos(request):
     return render(request, 'homeCatalogos.html')
@@ -109,6 +109,90 @@ def maestrosDelete(request, id):
         maestro.delete()
         return redirect('maestrosRead')
     return render(request, 'maestrosDelete.html', {'maestro': maestro})
+
+#CRUD PLANES ESTUDIO
+
+def planesRead(request):
+    planesEstudio= PlanEstudio.objects.all()
+    data = {'planesEstudio':planesEstudio}
+    return render(request, 'planesRead.html', data)
+        
+def planesCreate(request):
+    if request.method == 'POST':
+        form = PlanEstudioForm(request.POST)
+        if form.is_valid():
+            form.save()  # Save the form data to the database
+            return redirect('planesRead')  # Redirect after saving
+    else:
+        form = PlanEstudioForm()
+
+    return render(request, 'planesCreate.html', {'form': form})
+
+
+def planesUpdate(request, id):
+    planesEstudio = PlanEstudio.objects.get(id=id)  # Get the PlanEstudio object by ID
+    
+    if request.method == 'GET':
+        form = PlanEstudioForm(instance=planesEstudio)  # Render the form with existing data
+    else:
+        form = PlanEstudioForm(request.POST, instance=planesEstudio)  # Bind the form with POST data
+        if form.is_valid():
+            form.save()  # Save the updated PlanEstudio instance
+        return redirect('planesRead')
+    
+    return render(request, 'planesCreate.html', {'form': form})   
+
+def planesDelete(request, id):
+    planesEstudio = PlanEstudio.objects.get(id=id)  # Fetch the PlanEstudio object by ID
+    if request.method == 'POST':  # Confirm delete on POST request
+        planesEstudio.delete()  # Delete the PlanEstudio object
+        return redirect('planesRead')  # Redirect to the list of PlanEstudio objects
+    
+    # Render the confirmation page with the PlanEstudio object if GET request
+    return render(request, 'planesDelete.html', {'planesEstudio': planesEstudio})
+
+#CRUD Materias
+def materiasRead(request):
+    materias= Materia.objects.all()
+    data = {'materias':materias}
+    return render(request, 'materiasRead.html', data)
+
+def materiasCreate(request):
+    if request.method == 'POST':
+        form = MateriaForm(request.POST)
+        if form.is_valid():
+            form.save()  # Save the form data to the database
+            return redirect('materiasRead')  # Redirect after saving
+    else:
+        form = MateriaForm()
+
+    return render(request, 'materiasCreate.html', {'form': form})
+
+
+def materiasUpdate(request, id):
+    materia = Materia.objects.get(id=id)  # Obtener la Materia por ID o devolver 404
+    
+    if request.method == 'POST':
+        form = MateriaForm(request.POST, instance=materia)  # Formulario con datos de la solicitud
+        if form.is_valid():
+            form.save()
+            return redirect('materiasRead')  # Asegúrate de que esta vista existe
+    else:
+        form = MateriaForm(instance=materia)  # Formulario con datos existentes
+    
+    return render(request, 'materiasCreate.html', {'form': form})
+
+
+def materiasDelete(request, id):
+    materia = Materia.objects.get(id=id)  # Fetch the PlanEstudio object by ID
+    if request.method == 'POST':  # Confirm delete on POST request
+        materia.delete()  # Delete the PlanEstudio object
+        return redirect('materiasRead')  # Redirect to the list of PlanEstudio objects
+    
+    # Render the confirmation page with the PlanEstudio object if GET request
+    return render(request, 'materiasDelete.html', {'materia': materia})
+
+
 
 def datosRead(request):
     #Obtención de los datos

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block titulo%}Editando Plan de Estudio{% endblock %}
+
+{% block contenido %}
+
+<form action="" method="post">
+    {% csrf_token %}
+    <h3 style="color: blueviolet;">Seguro que quieres eliminar el Plan De Estudio {{planesEstudio.nombre}}</h3>
+    <button type="submit" class="btn btn-success"> Si, Eliminar</button>
+    <a href="{% url 'planesRead' %}" class="btn btn-danger">No, Cancelar </a>
+
+</form>
+{% endblock %}
