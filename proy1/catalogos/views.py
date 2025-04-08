@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from catalogos.models import Carrera, Aula, Maestro, PlanEstudio, Materia, Alumno
-from catalogos.forms import CarreraForm, AulaForm, MaestroForm, PlanEstudioForm, MateriaForm, AlumnoForm
+from catalogos.forms import CarreraForm, AulaForm, MaestroForm, PlanEstudioForm, MateriaForm, AlumnoForm, PlanesForm
 
 def homeCatalogos(request):
     return render(request, 'homeCatalogos.html')
@@ -42,6 +42,27 @@ def carrerasDelete(request, id):
         carrera.delete()            #Se elimina de la base de datos real
         return redirect('carrerasRead')
     return render(request, 'carrerasDelete.html', {'carrera':carrera})
+
+from django.views import generic
+class PlanesView(generic.ListView):
+    model = PlanEstudio
+    queryset = PlanEstudio.objects.all()
+    template_name = 'planesListar.html'
+    context_object_name = 'planes'
+
+from django.urls import reverse_lazy
+class PlanesCreate(generic.CreateView):
+    model = PlanEstudio
+    template_name = 'planesCrear.html'
+    context_object_name = 'planes'
+    form_class = PlanesForm
+    success_url = reverse_lazy('planesView') #regresar a vista de planes
+
+class PlanesDelete(generic.DeleteView):
+    model = PlanEstudio
+    template_name = 'planesEliminar.html'
+    context_object_name = 'planes'
+    success_url = reverse_lazy('planesView')
 
 #Aulas
 def aulasRead(request):

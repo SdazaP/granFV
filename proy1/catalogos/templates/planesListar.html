@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block titulo %}
+  Listado de Planes de Estudio
+{% endblock titulo %}
+
+{% block contenido %}
+  <h1>Listado de planes de Estudio</h1>
+  <a href="{% url 'planesCreate' %}" class="btn btn-primary"> Crear nuevo Plan de Estudios</a>
+  <table class="table">
+    <thead>
+        <tr>
+            <td>Clave</td>
+            <td>Nombre</td>
+            <td>Carrera</td>
+            <td>Opciones</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in planes %} <!-- dado por views.py clase planesview -->
+          <tr>
+            <td>{{item.clave}}</td>
+            <td>{{item.nombre}}</td>
+            <td>{{item.carrera}}</td>
+            <td>
+                <a href="">Editar</a>
+                <a href="{% url 'planesDelete' item.id %}">Eliminar</a>
+            </td>
+          </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+{% endblock contenido %}

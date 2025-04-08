@@ -1,6 +1,9 @@
 from django.contrib import admin
 from django.urls import path
 from catalogos import views
+
+from catalogos.views import PlanesView, PlanesCreate, PlanesDelete
+
 urlpatterns = [
     #path('admin/', admin.site.urls),
     path('homeCatalogos/', views.homeCatalogos, name='homeCatalogos'),
@@ -35,4 +38,10 @@ urlpatterns = [
     path('alumnosUpdate/<int:id>/', views.alumnosUpdate, name='alumnosUpdate'),
     path('alumnosDelete/<int:id>/', views.alumnosDelete, name='alumnosDelete'),
     path('get_planes_estudio/', views.get_planes_estudio, name='get_planes_estudio'),
+
+    #Vistas bassadas en clases
+    path('planes/view/', PlanesView.as_view(), name='planesView'),
+    path('planes/create/', PlanesCreate.as_view(), name='planesCreate'),
+    path('planes/delete/<int:pk>', PlanesDelete.as_view(), name='planesDelete'),
+    
 ]

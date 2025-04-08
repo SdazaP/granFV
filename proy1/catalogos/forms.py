@@ -111,3 +111,24 @@ class AlumnoForm(forms.ModelForm):
                 pass
         elif self.instance.pk:
             self.fields['plan_estudio'].queryset = self.instance.carrera.planestudio_set.all()
+
+class PlanesForm(forms.ModelForm):
+    class Meta:
+        model = PlanEstudio
+
+        fields = [
+            'clave',
+            'nombre',
+            'carrera'
+        ]
+
+        labels = {
+            'clave' : 'CLAVE',
+            'nombre' : 'NOMBRE',
+            'carrera' : 'CARRERA'   
+        }
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        #mostrar con bootstrap
+        for field in iter(self.fields):
+            self.fields[field].widget.attrs.update({'class':'form-control'})
